@@ -25,10 +25,22 @@ export const createUser = async (request:Request, response: Response) => {
 
 
 export const listUsers = async (request: Request, response: Response) => {
-    const users = await prisma.user.findMany({
-        include: {
-            role: true
-        }
-    });
+    const users = await prisma.user.findMany();
     response.json(users);
+}
+
+export const getUser = async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const user = await prisma.user.findUnique({
+        where: {
+            id: Number(id)
+        }
+    })
+
+    if (!user) {
+        response.status(404).send('User not found');
+        return
+    }
+
+    response.json(user);
 }
