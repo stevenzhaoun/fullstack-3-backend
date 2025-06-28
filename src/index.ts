@@ -2,7 +2,8 @@ import express from "express";
 import rolesRouter from "./routes/roles";
 import usersRouter from "./routes/users";
 import authRouter from "./routes/auth";
-import { authentication } from "./middlewares/authentiation";
+import { authentication } from "./middlewares/authentication";
+import { authorization } from "./middlewares/authorization";
 const app = express();
 const bodyParser = require('body-parser')
 

@@ -17,8 +17,13 @@ export const authentication = (request: Request, response: Response, next: NextF
         return
     }
     const token = headerToken.split(' ')[1];
+
     try {
-        jwt.verify(token, CONFIG.JWT_SECRET)
+        const decodedPayload = jwt.verify(token, CONFIG.JWT_SECRET) as any
+
+        (request as any).userId = decodedPayload.userId;
+        (request as any).roleId = decodedPayload.roleId;
+
         next()
     } catch (error) {
         response.status(401).send('Unauthorized');
