@@ -42,4 +42,21 @@ model Permission {
   roles Role[]
 }
 
+model Product {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  price Float
+  orders Order[]
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  email String
+  name String
+  createdAt DateTime @default(now())
+  total Float
+  prodcuts Product[]
+}
+
 
