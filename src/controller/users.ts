@@ -3,14 +3,14 @@ import prisma from "../prismaClient";
 import bcrypt from "bcrypt";
 
 export const createUser = async (request:Request, response: Response) => {
-    const { name, email, password, roleId } = request.body;
-    await prisma.user.create({
+    const { name, email, password, role_id } = request.body;
+    const user = await prisma.user.create({
         data: {
             name: name,
             email: email,
             role: {
                 connect: {
-                    id: roleId
+                    id: role_id
                 }
             },
             password: {
@@ -20,7 +20,7 @@ export const createUser = async (request:Request, response: Response) => {
             }
         }
     })
-    response.status(201).json({ message: 'User created successfully' });
+    response.status(201).json(user);
 }
 
 
@@ -38,26 +38,33 @@ export const updateUser = async (request: Request, response: Response) => {
         return
     }
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
         where: {
             id: Number(id)
         },
         data: {
-            name: request.body.name || user.name    ,
+            name: request.body.name || user.name,
             email: request.body.email || user.email,
             role: {
                 connect: {
-                    id: request.body.roleId || user.role_id
+                    id: request.body.role_id || user.role_id
                 }
             }
         }
     })
-    response.json({ message: 'User updated successfully' });
+    response.json(updatedUser);
 }
 
 
 export const listUsers = async (request: Request, response: Response) => {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+        include: {
+            role: true
+        },
+        orderBy: {
+            id: 'asc'
+        }
+    });
     response.json(users);
 }
 

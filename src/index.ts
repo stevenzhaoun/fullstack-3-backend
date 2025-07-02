@@ -5,9 +5,11 @@ import authRouter from "./routes/auth";
 import { authentication } from "./middlewares/authentication";
 import productsRouter from "./routes/products";
 import ordersRouter from "./routes/orders";
+import cors from "cors";
 const app = express();
 const bodyParser = require('body-parser')
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(authentication)
 
