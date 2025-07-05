@@ -15,6 +15,7 @@ const populateOrders = async () => {
             name: faker.person.fullName(),
             total: total,
             products: orderProducts,
+            createdAt: faker.date.recent({days: 7})
         }
     })
 
@@ -26,6 +27,7 @@ const populateOrders = async () => {
                 email: order.email,
                 name: order.name,
                 total: order.total,
+                createdAt: order.createdAt,
                 prodcuts: {
                     connect: order.products.map((product) => ({id: product.id}))
                 }
