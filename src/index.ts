@@ -7,8 +7,8 @@ import productsRouter from "./routes/products";
 import ordersRouter from "./routes/orders";
 import cors from "cors";
 const app = express();
-const bodyParser = require('body-parser')
 const port = process.env.PORT || 8888;
+const bodyParser = require('body-parser')
 
 app.use(cors())
 app.use(bodyParser.json())
