@@ -171,6 +171,10 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -197,8 +201,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id       Int       @id @default(autoincrement())\n  email    String    @unique\n  name     String\n  password Password?\n  role_id  Int\n  role     Role      @relation(fields: [role_id], references: [id])\n}\n\nmodel Password {\n  hash    String\n  user_id Int    @unique\n  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)\n}\n\nmodel Role {\n  id          Int          @id @default(autoincrement())\n  name        String       @unique\n  users       User[]\n  permissions Permission[]\n}\n\nmodel Permission {\n  id    Int    @id @default(autoincrement())\n  name  String @unique\n  roles Role[]\n}\n\nmodel Product {\n  id          Int     @id @default(autoincrement())\n  title       String\n  description String\n  price       Float\n  orders      Order[]\n}\n\nmodel Order {\n  id        Int       @id @default(autoincrement())\n  email     String\n  name      String\n  createdAt DateTime  @default(now())\n  total     Float\n  prodcuts  Product[]\n}\n",
-  "inlineSchemaHash": "f7e6b948965cc76d7191ad3911773231e8c6ec4dc92bcee0ee92772c0a04de71",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id       Int       @id @default(autoincrement())\n  email    String    @unique\n  name     String\n  password Password?\n  role_id  Int\n  role     Role      @relation(fields: [role_id], references: [id])\n}\n\nmodel Password {\n  hash    String\n  user_id Int    @unique\n  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)\n}\n\nmodel Role {\n  id          Int          @id @default(autoincrement())\n  name        String       @unique\n  users       User[]\n  permissions Permission[]\n}\n\nmodel Permission {\n  id    Int    @id @default(autoincrement())\n  name  String @unique\n  roles Role[]\n}\n\nmodel Product {\n  id          Int     @id @default(autoincrement())\n  title       String\n  description String\n  price       Float\n  orders      Order[]\n}\n\nmodel Order {\n  id        Int       @id @default(autoincrement())\n  email     String\n  name      String\n  createdAt DateTime  @default(now())\n  total     Float\n  prodcuts  Product[]\n}\n",
+  "inlineSchemaHash": "c595cf1f052ce6ccf712d2faa4643c31cdd6135525e33b9ff3d4b4bd8f3fe441",
   "copyEngine": true
 }
 
@@ -239,6 +243,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
 path.join(process.cwd(), "src/generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
